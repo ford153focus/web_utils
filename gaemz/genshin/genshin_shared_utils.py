@@ -1,12 +1,12 @@
 import pyppeteer.page
 
 profile_names = [
-    # "ford153focus@gmail.com",
-    # "ff000206@gmail.com",
-    # "reg3@ford-rt.com",
-    # "reg2@ford-rt.com",
+    "ford153focus@gmail.com",
+    "ff000206@gmail.com",
+    "reg3@ford-rt.com",
+    "reg2@ford-rt.com",
 
-    # "focus@ford-rt.com",
+    "focus@ford-rt.com",
     "reg1@ford-rt.com",
     "reg5@ford-rt.com"
 ]
