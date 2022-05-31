@@ -1,0 +1,330 @@
+query TagPageQuery(
+  $name: String!
+  $lineType: BlogLineType!
+  $favoriteType: BlogLineType
+  $page: Int
+  $isAuthorised: Boolean!
+  $isHomepage: Boolean!
+) {
+  blog(name: $name) {
+    id
+    tag
+    mainBlog {
+      id
+      nsfw
+      unsafe
+      synonyms
+      count
+      name
+    }
+    count
+    postPager(type: $lineType, favoriteType: $favoriteType) {
+      count
+      id
+    }
+    category {
+      tag
+      id
+    }
+    ...TagHeader_blog @skip(if: $isHomepage)
+    ...TagSidebar_blog @skip(if: $isHomepage)
+    ...TagPostPager_blog_3OSKdM
+  }
+}
+
+fragment AttributeEmbed_attribute on AttributeEmbed {
+  __isAttributeEmbed: __typename
+  type
+  value
+  image {
+    comment
+    id
+  }
+}
+
+fragment AttributePicture_attribute on AttributePicture {
+  __isAttributePicture: __typename
+  id
+  type
+  insertId
+  image {
+    width
+    height
+    type
+    comment
+    hasVideo
+    id
+  }
+}
+
+fragment AttributePicture_post on Post {
+  nsfw
+  blogs {
+    tag
+    name
+    synonyms
+    id
+  }
+}
+
+fragment Attribute_attribute on Attribute {
+  __isAttribute: __typename
+  type
+  ...AttributePicture_attribute
+  ...AttributeEmbed_attribute
+}
+
+fragment Attribute_post on Post {
+  ...AttributePicture_post
+}
+
+fragment BlogDescription_blog on Blog {
+  id
+  articlePost {
+    ...Content_post
+    ...Content_content
+    id
+  }
+}
+
+fragment CommentTree_comments_2lIf9C on Comment {
+  id
+  level
+  parent {
+    __typename
+    id
+  }
+  ...Comment_comment_2lIf9C
+}
+
+fragment CommentTree_post on Post {
+  id
+  ...Comment_post
+}
+
+fragment CommentVote_comment on Comment {
+  id
+  rating
+  vote {
+    id
+    createdAt
+    power
+  }
+}
+
+fragment Comment_comment_2lIf9C on Comment {
+  id
+  parent {
+    __typename
+    id
+  }
+  user {
+    id
+    username
+  }
+  createdAt
+  rating
+  level
+  ...Content_content
+  ...CommentVote_comment @include(if: $isAuthorised)
+}
+
+fragment Comment_post on Post {
+  id
+  ...Content_post
+}
+
+fragment Content_content on Content {
+  __isContent: __typename
+  text
+  attributes {
+    __typename
+    id
+    insertId
+    ...Attribute_attribute
+  }
+}
+
+fragment Content_post on Post {
+  ...Attribute_post
+}
+
+fragment Poll_post_2lIf9C on Post {
+  id
+  poll {
+    question
+    answers {
+      id
+      answer
+      count
+    }
+    pollVote @include(if: $isAuthorised)
+  }
+}
+
+fragment PostFooter_post_2lIf9C on Post {
+  id
+  commentsCount
+  rating
+  createdAt
+  favorite @include(if: $isAuthorised)
+  ...PostVote_post @include(if: $isAuthorised)
+}
+
+fragment PostPager_posts_3OSKdM on PostPager {
+  posts(page: $page) {
+    id
+    nsfw
+    unsafe
+    blogs {
+      mainBlog {
+        id
+        nsfw
+        unsafe
+      }
+      id
+    }
+    user {
+      username
+      id
+    }
+    ...Post_post_2lIf9C
+  }
+  count
+  id
+}
+
+fragment PostVote_post on Post {
+  id
+  rating
+  minusThreshold
+  vote {
+    id
+    createdAt
+    power
+  }
+}
+
+fragment Post_post_2lIf9C on Post {
+  id
+  user {
+    id
+    username
+  }
+  blogs {
+    tag
+    name
+    showAsCategory
+    id
+  }
+  bestComments {
+    ...CommentTree_comments_2lIf9C
+    id
+  }
+  nsfw
+  unsafe
+  createdAt
+  text
+  favorite @include(if: $isAuthorised)
+  ...PostVote_post @include(if: $isAuthorised)
+  poll {
+    question
+  }
+  ...Content_post
+  ...Content_content
+  ...PostFooter_post_2lIf9C
+  ...CommentTree_post
+  ...Poll_post_2lIf9C
+}
+
+fragment TagHeader_blog on Blog {
+  id
+  name
+  tag
+  synonyms
+  subscribers
+  nsfw
+  unsafe
+  count
+  image {
+    id
+  }
+  mainBlog {
+    id
+    unsafe
+    nsfw
+    articlePost {
+      id
+    }
+    ...BlogDescription_blog
+    subBlogsMenu {
+      id
+    }
+    subBlogs {
+      ...TagList_blogs
+      id
+    }
+    ...TagSuperBlogs_blog
+  }
+  ...TagSidebar_blog
+  articleImage {
+    id
+    type
+  }
+  category {
+    id
+    tag
+    category {
+      id
+    }
+  }
+}
+
+fragment TagList_blogs on Blog {
+  id
+  tag
+  name
+  nsfw
+  unsafe
+  count
+  subscribers
+  showAsCategory
+}
+
+fragment TagPostPager_blog_3OSKdM on Blog {
+  id
+  postPager(type: $lineType, favoriteType: $favoriteType) {
+    ...PostPager_posts_3OSKdM
+    count
+    id
+  }
+}
+
+fragment TagSidebar_blog on Blog {
+  tag
+  mainBlog {
+    subBlogsMenu {
+      id
+    }
+    subBlogs {
+      ...TagList_blogs
+      id
+    }
+    ...TagSuperBlogs_blog
+    id
+  }
+  category {
+    id
+    tag
+    category {
+      id
+    }
+  }
+}
+
+fragment TagSuperBlogs_blog on Blog {
+  subBlogsMenu {
+    id
+    tag
+  }
+}

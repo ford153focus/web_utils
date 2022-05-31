@@ -1,2 +1,4 @@
-pyppeteer
+beautifulsoup4
 nest_asyncio
+pyppeteer
+requests
