@@ -30,7 +30,7 @@ async def main():
 
         # start
         await libbrowser.click_if_exists(page, "button.mihoyo-cookie-tips__button")  # click cookie button
-        for span in await page.Jx('//span[contains(text(), "Click to Start")]'):
+        for span in await page.xpath('//span[contains(text(), "Click to Start")]'):
             await page.evaluate('(element) => element.click()', span)
 
         time.sleep(15)
@@ -43,7 +43,7 @@ async def main():
         time.sleep(15)
 
         # share page
-        for div in await page.Jx('//div[contains(text(), "Share to gain more information")]'):
+        for div in await page.xpath('//div[contains(text(), "Share to gain more information")]'):
             await page.evaluate('(element) => element.click()', div)
         div = (await page.querySelectorAll("div.me-share-popover__item"))[3]
         await page.evaluate('(element) => element.click()', div)
@@ -66,28 +66,22 @@ async def main():
         time.sleep(15)
 
         # desc page
-        await libbrowser.click_if_exists(page, 'svg > g')
-        time.sleep(1)
-        await libbrowser.click_if_exists(page, 'svg > g')
-        time.sleep(1)
-        await libbrowser.click_if_exists(page, 'svg > g')
-        time.sleep(1)
-        await libbrowser.click_if_exists(page, 'svg > g')
-        time.sleep(1)
-        await libbrowser.click_if_exists(page, 'svg > g')
+        for x in range(5):
+            await libbrowser.click_if_exists(page, 'svg > g')
+            time.sleep(1)
 
         time.sleep(15)
 
         # select suspect
         loop.run_until_complete(page.click('div.swiper-next'))
-        time.sleep(3)
+        time.sleep(10)
         for span in loop.run_until_complete(page.querySelectorAll('span[id^=option]')):
             loop.run_until_complete(page.evaluate('(element) => element.click()', span))
             time.sleep(5)
-        for div in await page.Jx('//div[contains(text(), "Identify the suspect")]'):
+        for div in await page.xpath('//div[contains(text(), "Identify the suspect")]'):
             await page.evaluate('(element) => element.click()', div)
         time.sleep(3)
-        for div in await page.Jx('//div[contains(text(), "Confirm")]'):
+        for div in await page.xpath('//div[contains(text(), "Confirm")]'):
             await page.evaluate('(element) => element.click()', div)
         time.sleep(3)
 
