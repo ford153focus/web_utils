@@ -41,6 +41,7 @@ elif sys.platform == 'linux':
 
 launch_options['args'] = launch_arguments
 
+
 def get_chromium_user_data_dir(user_name):
     return os.path.join(
         os.path.expanduser("~"),
@@ -50,6 +51,7 @@ def get_chromium_user_data_dir(user_name):
         user_name
     )
 
-async def click_if_exists(page:pyppeteer.page.Page, selector:str):
+
+async def click_if_exists(page: pyppeteer.page.Page, selector: str):
     if await page.querySelector(selector) is None: return
     await page.click(selector)
